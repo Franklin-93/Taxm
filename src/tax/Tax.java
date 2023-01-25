@@ -34,10 +34,10 @@
                 + "2: Financial Planning";
      // prompting user option
     System.out.println("Hello there , " + "\n" + userChoice);
-    int userChiceII = Integer.parseInt(kb.readLine());
+    int userChoiceII = Integer.parseInt(kb.readLine());
 
 
-    if (userChiceII == 1){
+    if (userChoiceII == 1){
             String userMenu ="What is your Status:" + "\n"
                 + "------------" + "\n"
                 + "1: Single" + "\n"

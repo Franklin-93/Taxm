@@ -110,9 +110,10 @@
                         // hours per week
                         System.out.println("How many hours do you usually work on a Weekly bases for " + companyName[i]);
                         hoursPerWeek = Double.parseDouble(myKeyboard.readLine());
+                        
 
 
-                            // 1) finding weekly gross pay limit by RATE BAND 1 / 52 weeks per year
+                            // 1) finding weekly gross pay limit by R1ATE BAND 1 / 52 weeks per year
                             // out of scope so it can be validated with if statament
                             weeklyGrossPayLimit = this.rateBand1 / this.weeklyPayLimit;
 
@@ -128,22 +129,23 @@
                                 double grossDeduction = weeklyGrossPayLimit * this.regularTaxPercentage / this.percentage;
                              
                                 // 4) finding the weekly tax credits
-                                double taxPayable = weeklyTaxCrdits / this.weeklyTaxCreditsYear;
-
-                                // finding net pay for 20%
+                                double netTaxCredits = weeklyTaxCrdits / this.weeklyTaxCreditsYear;
+                                double taxPayable = grossDeduction - netTaxCredits;
+                                
+                                 // finding net pay for 20%
                                 double netPay_20 = weeklyGrossPayLimit - taxPayable;
                                 
                                 // 5) finding NET Deductions
-                                netDeduction_20 = grossDeduction - taxPayable;
-                                
-                                
+                                netDeduction_20 = grossDeduction - netTaxCredits;
+                                                                
                                 ///////// CALCULATION AT 40% now ///////////////////
-
                                 // 6) calculating remaing balance from gross pay and limit per week
-                                netDeduction_40 = remainingBalance * this.emergencyTaxPercentage;
+                                netDeduction_40 = remainingBalance * this.emergencyTaxPercentage / this.percentage;
 
                                 // 7) total deduction = net_deduction 20 + net_deduction 40;
                                 totalDeduction = netDeduction_20 + netDeduction_40;
+                                
+                                double netPay_40 = netDeduction_40;
 
                                 // 8) finding NET PAY
                                 NET_PAY = weeklyGrossPay - totalDeduction;
@@ -151,49 +153,46 @@
                                 System.out.println("You are being taxed at (Emergency Tax) by " + companyName[i] + "."
                                         + " Understand why by reading the information below " + "\n");
                                 
+                                System.out.println("Emergency Tax is calculaded in three different ways: " + "\n"
+                                +"1: When you started in your new job and have no PPSN " + "\n"
+                                +"2: When you started in your new Job. You have PPSN, but the first salary will always be taxed at 40%" + "\n"
+                                +"3: When you are working for multiple employer and you do not have enough Tax Credits for each employer" +"\n");
                                 
-                                
+                                                               
+
                                 System.out.println("As you are (Single) your RATE BAND is at " + this.rateBand1 + " a year. That is divided by "
                                 +this.weeklyPayLimit + " weeks because you are getting paid weekly");
                                 
                                 
                                 System.out.println("Therefore \u20ac " + df.format(weeklyGrossPayLimit) + " is your gross pay (limit) per week "
-                                +"anD any value above that limit will be taxed at 40% " + "\n");
+                                +"and any value above that limit will be taxed at 40% " + "\n");
                                 
                                 
                                 System.out.println("Your Tax Credits is Currently \u20ac " + df.format(weeklyTaxCrdits)+ " divided by " 
-                                        +this.weeklyTaxCreditsYear + " No.weeks = \u20ac " + df.format(taxPayable) + " for each gross payment limit on a weekly bases");
-                                System.out.println("This \u20ac " + df.format(taxPayable) + " works only for the Gross Pay (Limit) see below:" + "\n");
+                                        +this.weeklyTaxCreditsYear + " No.weeks = \u20ac " + df.format(netTaxCredits) + " for each gross payment limit on a weekly bases");
+                                System.out.println("This \u20ac " + df.format(netTaxCredits) + " only works for the Gross Pay (Limit) as shown below:" + "\n");
                                 
                                 
-                                System.out.println("Your weekly Gross Pay is \u20ac " + df.format(weeklyGrossPay));
+                                System.out.println("Your weekly Gross Pay is \u20ac " + df.format(weeklyGrossPay) + " over the limit");
                                 System.out.println("Your weekly gross pay (Limit) is  \u20ac " + df.format(weeklyGrossPayLimit));
-                                System.out.println("Difference between them is  \u20ac " + df.format(remainingBalance) +" in which is calculate at 40% "
+                                
+                                
+                                System.out.println("Difference between Gross pay & Gross Pay limit is  \u20ac " + df.format(remainingBalance) +" in which is calculate at 40% "
                                         + "and the \u20ac " + df.format(weeklyGrossPayLimit) +" at 20%" + "\n");
   
                                 
-                                System.out.println("Gross Pay (limit) X 20% = \u20ac " + df.format(grossDeduction) 
-                                        + " - \u20ac " + df.format(netDeduction_20) + " = \u20ac " + df.format(taxPayable) + " Tax paybale");
-                                System.out.println("\u20ac " + df.format(grossDeduction) + " -  \u20ac " + df.format(taxPayable) + " = \u20ac " + df.format(netPay_20));
-                               
+                                System.out.println("First, we calculate your Gross Pay Limit \u20ac " + df.format(weeklyGrossPayLimit) +" x 20% = "+ "\u20ac " + df.format(grossDeduction) 
+                                        + " - \u20ac " + df.format(netTaxCredits) + " Tax Credits = \u20ac " + df.format(taxPayable) + " Tax paybale");
+                                System.out.println("Gross Pay (limit) \u20ac " + df.format(weeklyGrossPayLimit) + " -  \u20ac " + df.format(taxPayable) + " = NET PAY at 20% > \u20ac " + df.format(netPay_20));
                                 
-                                //System.out.println("40% x Difference = \u20ac " + df.format(netDeduction_40));
+                                System.out.println("We have calculated your Gross Pay limit at Rate Band 1 (20%)" + "\n" 
+                                        +"We must now calculate the Difference we found at Rate Band 2 (40%)" + "\n");
                                 
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                               
-                               
-                                
-                                
-                                
-                                
-                             
-                                
+                                System.out.println("The remainig balance is => \u20ac " + df.format(remainingBalance) + " x 40% / 100% =  \u20ac " + df.format(netDeduction_40));
+                                System.out.println("Your tax calculation is \u20ac " + df.format(netDeduction_20) + " + \u20ac " +  df.format(netDeduction_40) +" = \u20ac " + df.format(totalDeduction));
+                                System.out.println("\u20ac " + df.format(totalDeduction) + " - \u20ac " + df.format(weeklyGrossPay));
+                                System.out.println("Therefore your NET PAY is : \u20ac " + df.format(NET_PAY));
+                  
                         }
 
                             else if (weeklyGrossPay <= weeklyGrossPayLimit){
@@ -215,8 +214,6 @@
                                // String taxBreakDown = "Your weekly Gross Pay is " + weeklyGrossPay 
                                      //   + "Your weekly gross pay (Limit) is " + weeklyGrossPayLimit 
                                        // + "Difference between them is "   ;
-                                
-                                
                                 
                                 System.out.println("You are not at (Emergency Tax) by " + companyName[i] + "\n");
                                 System.out.println("YOUR TAX CREDIT IS CURRENTLY " + weeklyTaxCrdits + " divided by " 
