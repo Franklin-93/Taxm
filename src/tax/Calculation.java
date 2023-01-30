@@ -1,4 +1,3 @@
-
         package tax;
         import java.io.BufferedReader;
         import java.io.IOException;
@@ -6,9 +5,8 @@
         import java.text.DecimalFormat;
 
         public class Calculation {
-
            final private double rateBand1;
-           final private double yearlyTaxCredits;
+           private int yearlyTaxCredits;
            final private int weeklyTaxCreditsYear; 
            final private int fortnightlyTaxCreditsYear;
            final private int monthlyTaxCreditsYear;
@@ -42,10 +40,21 @@
             this.emergencyTaxPercentage = 40;
             this.taxCreditsTwoEmployeers = this.yearlyTaxCredits + 1775;                        
         }
+        
+        /*
+        1- create a METHOD that calculate the YEARLY TAX CREDITS against the user input
+        and numbers of employers
+        
+        2- create a METHOD that calculate the YEARLY TAX CREDITS against the user input
+        and numbers of employers
+        
+        
+        */ 
+        
            public void singlePersonTax() throws IOException{
 
             int numberOfEmployers=0;
-
+      
             // get number of employers
             System.out.println("How many employers are currently working for?");
             numberOfEmployers = Integer.parseInt(myKeyboard.readLine());                         
@@ -59,10 +68,22 @@
                     companyName[i] = myKeyboard.readLine();
                 }                    
                 
+               int remainingTaxCredit = this.yearlyTaxCredits; 
                for(int i=0; i<companyName.length; i++) {
-
+                   
+                   
+                   System.out.println("Enter the Tax Credits for => " + companyName[i]);
+                        int weeklyTaxCrdits = Integer.parseInt(myKeyboard.readLine());
+                        
+                        remainingTaxCredit =- weeklyTaxCrdits;
+                          
+      
+                            
+                           System.out.println("TAX CREDITS LEFT " + (remainingTaxCredit));
+                        
+              
                 // Payment frequency menu   
-                String userPrompt ="How often are getting paid by " + companyName[i] + " ? " + "\n"
+                String userPrompt = "How often are getting paid by " + companyName[i] + " ? " + "\n"
                             + "Please Enter: " + "\n"
                             + "------------- " + "\n"
                             + "1: Weekly " + "\n"
@@ -75,13 +96,12 @@
                 // get user input
                 int paymentFrequency = Integer.parseInt(myKeyboard.readLine());
 
-         
                 double weeklyGrossPay = 0;
                 double fortnightlyGrossPay = 0;
                 double monthlyGrossPay = 0;
                 double hoursPerWeek = 0;
                 double salaryPerHour = 0;
-                double weeklyTaxCrdits = 0;
+               // int weeklyTaxCrdits = 0;
                 double remainingBalance = 0;
 
                 // limit is set up by the rate band 1 = 40,000.00 divided by how often a employee is getting paid 
@@ -98,25 +118,39 @@
 
                     // WEEKLY PAYMENT
                     case 1:
-
+                     
                         // getting tax credit for each employer by user input
-                        System.out.println("Enter the Tax Credits for => " + companyName[i]);
-                        weeklyTaxCrdits = Double.parseDouble(myKeyboard.readLine());
-
+                       /* System.out.println("Enter the Tax Credits for => " + companyName[i]);
+                        weeklyTaxCrdits = Integer.parseInt(myKeyboard.readLine());
+                        
+                        
+                        for(int j=0; j<numberOfEmployers; j++){
+                            
+                            int remainingTaxCredit = this.yearlyTaxCredits - weeklyTaxCrdits;
+                            this.yearlyTaxCredits--;
+                           System.out.println("TAX CREDITS LEFT" + (remainingTaxCredit++));
+                        }*/
+                       
+                           
+                           
+                           
+               
+                           
                         // weekly gross from the user
                         System.out.println("Enter your Weekly Groos pay for " + companyName[i]);
                         weeklyGrossPay = Double.parseDouble(myKeyboard.readLine());
-
+                           
                         // hours per week
                         System.out.println("How many hours do you usually work on a Weekly bases for " + companyName[i]);
                         hoursPerWeek = Double.parseDouble(myKeyboard.readLine());
                         
-
-
-                            // 1) finding weekly gross pay limit by R1ATE BAND 1 / 52 weeks per year
-                            // out of scope so it can be validated with if statament
-                            weeklyGrossPayLimit = this.rateBand1 / this.weeklyPayLimit;
-
+                           //finding Weekly Gross Pay(LIMIT)
+                           weeklyGrossPayLimit = this.rateBand1 / this.weeklyPayLimit; 
+                            
+                           
+                          
+                           
+                          
                             // check whether user is being taxed at emergency tax
                             if (weeklyGrossPay > weeklyGrossPayLimit){
 
@@ -130,24 +164,28 @@
                              
                                 // 4) finding the weekly tax credits
                                 double netTaxCredits = weeklyTaxCrdits / this.weeklyTaxCreditsYear;
+                                
+                                // 5) finding Tax Payble
                                 double taxPayable = grossDeduction - netTaxCredits;
                                 
-                                 // finding net pay for 20%
+                                // 6) finding net pay 20%
                                 double netPay_20 = weeklyGrossPayLimit - taxPayable;
                                 
-                                // 5) finding NET Deductions
+                                // 5) finding NET Deductions 20%
                                 netDeduction_20 = grossDeduction - netTaxCredits;
+                                
                                                                 
                                 ///////// CALCULATION AT 40% now ///////////////////
-                                // 6) calculating remaing balance from gross pay and limit per week
+                                
+                                // 1) calculating remaing balance from gross pay and limit per week
                                 netDeduction_40 = remainingBalance * this.emergencyTaxPercentage / this.percentage;
 
-                                // 7) total deduction = net_deduction 20 + net_deduction 40;
+                                // 2) total deduction 
                                 totalDeduction = netDeduction_20 + netDeduction_40;
                                 
                                 double netPay_40 = netDeduction_40;
 
-                                // 8) finding NET PAY
+                                // 3) finding NET PAY
                                 NET_PAY = weeklyGrossPay - totalDeduction;
 
                                 System.out.println("You are being taxed at (Emergency Tax) by " + companyName[i] + "."
@@ -223,6 +261,183 @@
                                 System.out.println("SOMETHING WENT WRONG!!!");
                             }
                         break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        /*    
+                        // FORTNIGHLY PAYMENT   
+                        case 2:
+                            // cause the user wont know exaclty how much their geting paid per hour
+                            System.out.println("Enter your Fortnightly Groos pay for " + companyName[i]);
+                            fortnightlyGrossPay = Double.parseDouble(myKeyboard.readLine());
+
+                            // hours per week
+                            System.out.println("How many hours do you usually work every two weeks for " + companyName[i]);
+                            hoursPerWeek = Double.parseDouble(myKeyboard.readLine());
+
+                                // 1) finding gross pay limit by RATE BAND 1 / 26 weeks per year
+                                fortnightlyGrossPayLimit = this.rateBand1 / this.fortnighlyPayLimit;
+
+                                 // check whether user is being taxed at emergency tax
+                                if (fortnightlyGrossPay > fortnightlyGrossPayLimit){
+
+                                    ///////// CALCULATION AT 20% first ///////////////////
+
+                                    // 2) diference between gross pay and weekly limit = balance to be taxed at 40%
+                                    remainingBalance = fortnightlyGrossPay - fortnightlyGrossPayLimit;
+
+                                    // 3) finding gross deductions at 20%
+                                    grossDeduction = fortnightlyGrossPayLimit * this.regularTaxPercentage / this.percentage;
+
+                                    // 4) finding the weekly tax credits
+                                    weeklyTaxCrdits = this.yearlyTaxCredits / this.fortnightlyTaxCreditsYear;
+
+                                    // 5) finding NET Deductions
+                                    netDeduction_20 = grossDeduction - weeklyTaxCrdits;
+
+                                    ///////// CALCULATION AT 40% now ///////////////////
+
+                                    // 6) calculating remaing balance from gross pay and limit per week
+                                    netDeduction_40 = remainingBalance * this.emergencyTaxPercentage;
+
+                                    // 7) total deduction = net_deduction 20 + net_deduction 40;
+                                    totalDeduction = netDeduction_20 + netDeduction_40;
+
+                                    // 8) finding NET PAY
+                                    NET_PAY = fortnightlyGrossPay - totalDeduction;
+
+                                    System.out.println("You are being taxed at (Emergency Tax) by " + companyName[i] + "."
+                                            + " Please, contact Revenue!!!" + "\n");
+                            }
+
+                                else if (fortnightlyGrossPay <= fortnightlyGrossPayLimit){
+
+                                     ///////// CALCULATION AT 20% only ///////////////////
+
+                                    // 1) finding gross deductions
+                                    grossDeduction = fortnightlyGrossPayLimit * this.regularTaxPercentage / this.percentage;
+
+                                    // 2) finding the weekly tax credits
+                                    weeklyTaxCrdits = this.yearlyTaxCredits / this.fortnightlyTaxCreditsYear;
+
+                                    // 3) finding NET Deductions
+                                    netDeduction_20 = grossDeduction - weeklyTaxCrdits;
+
+                                    // 4) finding NET PAY AT 
+                                    NET_PAY = fortnightlyGrossPay - totalDeduction;
+                                    System.out.println("You are not at (Emergency Tax) by " + companyName[i] + "\n");
+                            }
+                                else{
+                                    System.out.println("SOMETHING WENT WRONG!!!");
+                                } 
+                            break;
+
+                        case 3:
+                            // cause the user wont know exaclty how much their geting paid per hour
+                            System.out.println("Enter your Monthly Groos pay for " + companyName[i]);
+                            monthlyGrossPay = Double.parseDouble(myKeyboard.readLine());
+
+                            // hours per week
+                            System.out.println("How many hours do you usually work monthly for " + companyName[i]);
+                            hoursPerWeek = Double.parseDouble(myKeyboard.readLine());
+
+                                // finding gross pay limit by RATE BAND 1 / 12 months per year
+                                monthlyGrossPayLimit = this.rateBand1 / this.monthlyPayLimit;
+
+                            // check whether user is being taxed at emergency tax
+                            if (monthlyGrossPay > monthlyGrossPayLimit){
+
+                                    ///////// CALCULATION AT 20% first ///////////////////
+
+                                    // 2) diference between gross pay and weekly limit = balance to be taxed at 40%
+                                    remainingBalance = monthlyGrossPay - monthlyGrossPayLimit;
+
+                                    // 3) finding gross deductions at 20%
+                                    grossDeduction = monthlyGrossPayLimit * this.regularTaxPercentage / this.percentage;
+
+                                    // 4) finding the weekly tax credits
+                                    weeklyTaxCrdits = this.yearlyTaxCredits / this.monthlyTaxCreditsYear;
+
+                                    // 5) finding NET Deductions
+                                    netDeduction_20 = grossDeduction - weeklyTaxCrdits;
+
+                                    ///////// CALCULATION AT 40% now ///////////////////
+
+                                    // 6) calculating remaing balance from gross pay and limit per week
+                                    netDeduction_40 = remainingBalance * this.emergencyTaxPercentage;
+
+                                    // 7) total deduction = net_deduction 20 + net_deduction 40;
+                                    totalDeduction = netDeduction_20 + netDeduction_40;
+
+                                    // 8) finding NET PAY
+                                    NET_PAY = monthlyGrossPay - totalDeduction;
+
+                                    System.out.println("You are being taxed at (Emergency Tax) by " + companyName[i] + "."
+                                            + " Please, contact Revenue!!!" + "\n");
+                            }
+
+                                else if (monthlyGrossPay <= monthlyGrossPayLimit){
+
+                                     ///////// CALCULATION AT 20% only ///////////////////
+
+                                    // 1) finding gross deductions
+                                    grossDeduction = monthlyGrossPayLimit * this.regularTaxPercentage / this.percentage;
+
+                                    // 2) finding the weekly tax credits
+                                    weeklyTaxCrdits = this.yearlyTaxCredits / this.monthlyTaxCreditsYear;
+
+                                    // 3) finding NET Deductions
+                                    netDeduction_20 = grossDeduction - weeklyTaxCrdits;
+
+                                    // 4) finding NET PAY AT 
+                                    NET_PAY = monthlyGrossPay - totalDeduction;
+                                    System.out.println("You are not at (Emergency Tax) by " + companyName[i] + "\n");
+                            }
+                                else{
+                                    System.out.println("SOMETHING WENT WRONG!!!");
+                                } 
+                            break;
+
+                        default: // do nothing */
+
 
 
 
