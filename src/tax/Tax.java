@@ -15,10 +15,12 @@
                              */
                             public static void main(String[] args) throws IOException {
 
+                            
                             BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
 
                                                            
                             Calculation singlePerson = new Calculation();
+                            
 
                             singlePerson.singlePersonTax();
 
